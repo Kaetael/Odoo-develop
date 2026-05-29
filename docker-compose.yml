@@ -1,0 +1,115 @@
+services:
+
+  # =========================
+  # PostgreSQL (shared)
+  # =========================
+  postgres:
+    image: postgres:16
+    container_name: postgres_odoo
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+
+  # =========================
+  # ODOO 16
+  # =========================
+  odoo16:
+    image: odoo:16
+    container_name: odoo16
+    depends_on:
+      - postgres
+    ports:
+      - "8016:8069"
+    command: >
+      odoo
+      -c /etc/odoo/odoo.conf
+      -d odoo16_db
+      -i base
+      --without-demo=all
+    volumes:
+      - odoo16_data:/var/lib/odoo
+      - ./odoo16/config:/etc/odoo
+      - ./odoo16/addons:/mnt/extra-addons
+    restart: unless-stopped
+
+
+  # =========================
+  # ODOO 17
+  # =========================
+  odoo17:
+    image: odoo:17
+    container_name: odoo17
+    depends_on:
+      - postgres
+    ports:
+      - "8017:8069"
+    command: >
+      odoo
+      -c /etc/odoo/odoo.conf
+      -d odoo17_db
+      -i base
+      --without-demo=all
+    volumes:
+      - odoo17_data:/var/lib/odoo
+      - ./odoo17/config:/etc/odoo
+      - ./odoo17/addons:/mnt/extra-addons
+    restart: unless-stopped
+
+
+  # =========================
+  # ODOO 18
+  # =========================
+  odoo18:
+    image: odoo:18
+    container_name: odoo18
+    depends_on:
+      - postgres
+    ports:
+      - "8018:8069"
+    command: >
+      odoo
+      -c /etc/odoo/odoo.conf
+      -d odoo18_db
+      -i base
+      --without-demo=all
+    volumes:
+      - odoo18_data:/var/lib/odoo
+      - ./odoo18/config:/etc/odoo
+      - ./odoo18/addons:/mnt/extra-addons
+    restart: unless-stopped
+
+
+  # =========================
+  # ODOO 19
+  # =========================
+  odoo19:
+    image: odoo:19
+    container_name: odoo19
+    depends_on:
+      - postgres
+    ports:
+      - "8019:8069"
+    command: >
+      odoo
+      -c /etc/odoo/odoo.conf
+      -d odoo19_db
+      -i base
+      --without-demo=all
+    volumes:
+      - odoo19_data:/var/lib/odoo
+      - ./odoo19/config:/etc/odoo
+      - ./odoo19/addons:/mnt/extra-addons
+    restart: unless-stopped
+
+
+volumes:
+  postgres_data:
+  odoo16_data:
+  odoo17_data:
+  odoo18_data:
+  odoo19_data:
